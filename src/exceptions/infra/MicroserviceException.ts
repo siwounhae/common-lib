@@ -1,4 +1,4 @@
-import { BaseException } from "../core/BaseException";
+import { BaseException } from "../core/base.exception";
 import { ErrorCode } from "../core/ErrorCode";
 import { HttpStatus } from "@nestjs/common";
 
@@ -17,7 +17,6 @@ export class MicroserviceException extends BaseException {
       status = HttpStatus.BAD_GATEWAY;
       baseMessage = "📡 마이크로서비스 통신 오류가 발생했습니다.";
     }
-
     super(code, `${baseMessage} (세부 정보: ${message})`, status);
   }
 }

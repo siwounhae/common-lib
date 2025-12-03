@@ -4,19 +4,42 @@
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "exports": {
-    ".": "./dist/index.js",
-    "./exceptions": "./dist/exceptions/index.js",
-    "./enums": "./dist/enums/index.js",
-    "./guards": "./dist/guards/index.js",
-    "./decorators": "./dist/decorators/index.js",
-    "./rpc": "./dist/rpc/index.js"
+    ".": {
+      "import": "./dist/index.js",
+      "require": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    },
+    "./exceptions": {
+      "import": "./dist/exceptions/index.js",
+      "require": "./dist/exceptions/index.js",
+      "types": "./dist/exceptions/index.d.ts"
+    },
+    "./enums": {
+      "import": "./dist/enums/index.js",
+      "require": "./dist/enums/index.js",
+      "types": "./dist/enums/index.d.ts"
+    },
+    "./guards": {
+      "import": "./dist/guards/index.js",
+      "require": "./dist/guards/index.js",
+      "types": "./dist/guards/index.d.ts"
+    },
+    "./decorators": {
+      "import": "./dist/decorators/index.js",
+      "require": "./dist/decorators/index.js",
+      "types": "./dist/decorators/index.d.ts"
+    },
+    "./rpc-contracts": {
+      "import": "./dist/rpc/index.js",
+      "require": "./dist/rpc/index.js",
+      "types": "./dist/rpc/index.d.ts"
+    }
   },
   "scripts": {
     "build": "tsc"
   },
   "dependencies": {
     "@nestjs/common": "^10.0.0",
-    "@nestjs/config": "^4.0.2",
     "@nestjs/core": "^10.4.20",
     "@nestjs/jwt": "^11.0.1"
   },

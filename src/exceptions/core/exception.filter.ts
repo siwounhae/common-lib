@@ -4,9 +4,9 @@ import {
   ExceptionFilter,
   HttpStatus,
 } from "@nestjs/common";
-import { BaseException } from "./BaseException";
+import { BaseException } from "./base.exception";
 
-@Catch()
+@Catch(BaseException)
 export class GlobalExceptionFilter implements ExceptionFilter {
   catch(exception: unknown, host: ArgumentsHost) {
     const ctx = host.switchToHttp();
