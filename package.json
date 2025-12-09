@@ -29,10 +29,10 @@
       "require": "./dist/decorators/index.js",
       "types": "./dist/decorators/index.d.ts"
     },
-    "./rpc-contracts": {
-      "import": "./dist/rpc/index.js",
-      "require": "./dist/rpc/index.js",
-      "types": "./dist/rpc/index.d.ts"
+    "./interfaces": {
+      "import": "./dist/interfaces/index.js",
+      "require": "./dist/interfaces/index.js",
+      "types": "./dist/interfaces/index.d.ts"
     }
   },
   "scripts": {

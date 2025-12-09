@@ -4,35 +4,38 @@ import {
   ExecutionContext,
   UnauthorizedException,
 } from "@nestjs/common";
-import { JwtService } from "@nestjs/jwt";
-import { ConfigService } from "@nestjs/config";
+import { Request } from "express";
+
+interface UserPayload {
+  userId: string;
+  accountId: string;
+  role: string;
+}
+
+declare module "express" {
+  interface Request {
+    user?: UserPayload;
+  }
+}
 
 @Injectable()
 export class JwtAuthGuard implements CanActivate {
-  constructor(
-    private jwtService: JwtService,
-    private configService: ConfigService
-  ) {}
-
+  constructor() {}
   async canActivate(context: ExecutionContext): Promise<boolean> {
-    const request = context.switchToHttp().getRequest();
-    const token = this.extractTokenFromHeader(request);
-    if (!token) {
-      throw new UnauthorizedException("토큰이 없습니다");
+    const request = context.switchToHttp().getRequest<Request>();
+    const userPayloadJson = request.headers["x-user-payload"] as string;
+    if (!userPayloadJson) {
+      throw new UnauthorizedException("인증된 사용자 정보가 누락되었습니다.");
     }
     try {
-      const secret = this.configService.get<string>("JWT_ACCESS_SECRET");
-      const payload = await this.jwtService.verifyAsync(token, { secret });
-
+      const payload: UserPayload = JSON.parse(userPayloadJson);
       request.user = payload;
-    } catch {
-      throw new UnauthorizedException("유효하지 않은 토큰입니다");
+      if (!request.user || !request.user.userId) {
+        throw new UnauthorizedException("페이로드에 userId가 없습니다.");
+      }
+    } catch (e) {
+      throw new UnauthorizedException("유효하지 않은 사용자 정보 형식입니다.");
     }
     return true;
-  }
-
-  private extractTokenFromHeader(request: any): string | undefined {
-    const [type, token] = request.headers.authorization?.split(" ") ?? [];
-    return type === "Bearer" ? token : undefined;
   }
 }

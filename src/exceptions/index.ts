@@ -1,5 +1,4 @@
 export * from "./core/base.exception";
-export * from "./domain/auth.exception";
 export * from "./domain/database.exception";
 
 export * from "./core/ErrorCode";
