@@ -2,11 +2,11 @@ import { BaseException } from "../core/base.exception";
 import { ERROR_CODE } from "../core/error-code";
 import { HttpStatus } from "@nestjs/common";
 
-export class DatabaseFailedException extends BaseException {
+export class ForbiddenException extends BaseException {
   constructor(message?: string) {
     super(
       ERROR_CODE.DATABASE_OPERATION_FAILED,
-      `👾 ${message} 데이터베이스 작업 중 알 수 없는 오류가 발생했습니다.`,
+      `👾 ${message} 관련 인증 권한이 없습니다.`,
       HttpStatus.INTERNAL_SERVER_ERROR
     );
   }

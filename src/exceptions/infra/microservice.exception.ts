@@ -1,16 +1,16 @@
 import { BaseException } from "../core/base.exception";
-import { ErrorCode } from "../core/ErrorCode";
+import { ERROR_CODE } from "../core/error-code";
 import { HttpStatus } from "@nestjs/common";
 
 export class MicroserviceException extends BaseException {
   constructor(
     message: string,
-    code: ErrorCode = ErrorCode.INFRA_GATEWAY_ERROR
+    code: ERROR_CODE = ERROR_CODE.INFRA_GATEWAY_ERROR
   ) {
     let status: HttpStatus;
     let baseMessage: string;
 
-    if (code === ErrorCode.INFRA_RPC_TIMEOUT) {
+    if (code === ERROR_CODE.INFRA_RPC_TIMEOUT) {
       status = HttpStatus.GATEWAY_TIMEOUT;
       baseMessage = "📡 마이크로서비스 응답 시간이 초과되었습니다.";
     } else {

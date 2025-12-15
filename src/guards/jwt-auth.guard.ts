@@ -8,7 +8,6 @@ import { Request } from "express";
 
 interface UserPayload {
   userId: string;
-  accountId: string;
   role: string;
 }
 
@@ -20,22 +19,23 @@ declare module "express" {
 
 @Injectable()
 export class JwtAuthGuard implements CanActivate {
-  constructor() {}
   async canActivate(context: ExecutionContext): Promise<boolean> {
     const request = context.switchToHttp().getRequest<Request>();
-    const userPayloadJson = request.headers["x-user-payload"] as string;
-    if (!userPayloadJson) {
+    const rawPayload = request.headers["x-user-payload"];
+    if (!rawPayload || typeof rawPayload !== "string") {
       throw new UnauthorizedException("인증된 사용자 정보가 누락되었습니다.");
     }
+
+    let payload: UserPayload;
     try {
-      const payload: UserPayload = JSON.parse(userPayloadJson);
-      request.user = payload;
-      if (!request.user || !request.user.userId) {
-        throw new UnauthorizedException("페이로드에 userId가 없습니다.");
-      }
-    } catch (e) {
+      payload = JSON.parse(rawPayload);
+    } catch {
       throw new UnauthorizedException("유효하지 않은 사용자 정보 형식입니다.");
     }
+    if (!payload.userId) {
+      throw new UnauthorizedException("페이로드에 userId가 없습니다.");
+    }
+    request.user = payload;
     return true;
   }
 }
