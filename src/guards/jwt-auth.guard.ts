@@ -5,11 +5,7 @@ import {
   UnauthorizedException,
 } from "@nestjs/common";
 import { Request } from "express";
-
-interface UserPayload {
-  userId: string;
-  role: string;
-}
+import { UserPayload } from "src/interfaces";
 
 declare module "express" {
   interface Request {
@@ -25,7 +21,6 @@ export class JwtAuthGuard implements CanActivate {
     if (!rawPayload || typeof rawPayload !== "string") {
       throw new UnauthorizedException("인증된 사용자 정보가 누락되었습니다.");
     }
-
     let payload: UserPayload;
     try {
       payload = JSON.parse(rawPayload);
